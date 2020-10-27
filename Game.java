@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+
 import java.util.*;
 
 /**
@@ -40,7 +40,27 @@ public class Game
         roomStack = new Room[500];
         top=-1;
     }
-
+    private void createPlayer() {
+        System.out.println("Enter player name: ");
+        String name = reader.nextLine();
+        player.setPlayerName(name);
+        createRooms();
+    }
+    
+    /**
+     * Print out the opening message for the player.
+     */
+    private void printWelcome()
+    {
+        System.out.println("Hello " + player.getPlayerName() + ", ");
+        System.out.println("Welcome to the World of Zuul!");
+        System.out.println("World of Zuul is a new, incredibly boring adventure game.");
+        System.out.println("Type 'help' if you need help.");
+        createPlayer();
+        System.out.println("Hello player " + player.getPlayerName() + "!\n");
+        System.out.println(player.getPlayerDescription());
+    }
+    
     /**
      * Create all the rooms and link their exits together.
      */
@@ -101,19 +121,7 @@ public class Game
     }
     
     
-    /**
-     * Print out the opening message for the player.
-     */
-    private void printWelcome()
-    {
-        System.out.println("Hello " + player.getPlayerName() + ", ");
-        System.out.println("Welcome to the World of Zuul!");
-        System.out.println("World of Zuul is a new, incredibly boring adventure game.");
-        System.out.println("Type 'help' if you need help.");
-        createPlayer();
-        System.out.println("Hello player " + player.getPlayerName() + "!\n");
-        System.out.println(player.getPlayerDescription());
-    }
+    
     
     // starter file
 
@@ -161,13 +169,7 @@ public class Game
     }
     
     
-    private void createPlayer() {
-    System.out.println("Enter player name: ");
-    String name = reader.nextLine();
-    player.setPlayerName(name);
-    createRooms();
-    System.out.println("Enter maximum weight player can carry");
-    }
+    
     
     private Room addItemsToRoom(Room room, Item items[]) 
     {
@@ -185,6 +187,7 @@ public class Game
     public void play() 
     {            
         createPlayer();
+        
         printWelcome();
 
         // Enter the main command loop.  Here we repeatedly read commands and

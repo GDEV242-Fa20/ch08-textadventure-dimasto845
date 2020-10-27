@@ -12,7 +12,8 @@ public class Item
 {
     // instance variables - replace the example below with your own
     private String itemDescription;
-    private double itemWeight;
+    private int itemWeight;
+    private int weight;
     private ArrayList<Item> items;
     private String name;
     private String magicCookie;
@@ -20,14 +21,14 @@ public class Item
     
     public Item() {
     itemDescription = "";
-    itemWeight = 0.0;
+    itemWeight = 0;
     name = "";
     }
        /**
          * Constructor for objects of class Item
          * Create an item described "description", and Weight
          */
-    public Item(String description, double weight)
+    public Item(String description, int weight)
     {
         // initialise instance variables
         description = description;
@@ -56,14 +57,14 @@ public class Item
         return itemDescription;
     }
     
-    public double getWeight() {
+    public int getWeight() {
     return itemWeight;
     }
 
     /**
      * Return the weight of the item
      */
-    public double weight()
+    public int weight()
     {
         return itemWeight;
     }
