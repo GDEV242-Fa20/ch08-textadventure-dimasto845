@@ -16,24 +16,26 @@ import java.util.Scanner;
  * @author  Michael Kölling and David J. Barnes
  * @version 2016.02.29
  */
-public class Parser 
+public class Parser
 {
-    private CommandWords commands;  // holds all valid command words
+    private CommandWords commands; // holds all valid command words
     private Scanner reader;         // source of command input
 
     /**
      * Create a parser to read from the terminal window.
      */
-    public Parser() 
+    public Parser()
     {
         commands = new CommandWords();
         reader = new Scanner(System.in);
     }
 
     /**
-     * @return The next command from the user.
+     * Get the command from the user.
+     *
+     * @return The next command from the user
      */
-    public Command getCommand() 
+    public Command getCommand()
     {
         String inputLine;   // will hold the full input line
         String word1 = null;
@@ -53,7 +55,14 @@ public class Parser
             }
         }
 
-        return new Command(commands.getCommandWord(word1), word2);
+        // Now check whether this word is known. If so, create a command
+        // with it. If not, create a "null" command (for unknown command).
+        if(commands.isCommand(word1)) {
+            return new Command(word1, word2);
+        }
+        else {
+            return new Command(null, word2);
+        }
     }
 
     /**
@@ -64,3 +73,4 @@ public class Parser
         commands.showAll();
     }
 }
+

@@ -1,6 +1,7 @@
 import java.util.Set;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.ArrayList;
 
 /**
  * Class Room - a room in an adventure game.
@@ -18,9 +19,11 @@ import java.util.Iterator;
 
 public class Room 
 {
-    private String description;
-    private HashMap<String, Room> exits;        // stores exits of this room.
-
+    public String description;
+    private HashMap<String, Room> exits;
+    private ArrayList<Item> roomItems;
+    private String item;
+    private Item roomItem;
     /**
      * Create a room described "description". Initially, it has
      * no exits. "description" is something like "a kitchen" or
@@ -30,8 +33,37 @@ public class Room
     public Room(String description) 
     {
         this.description = description;
-        exits = new HashMap<>();
+        exits = new HashMap<String, Room>();
+        roomItems = new ArrayList<Item>();
     }
+    
+    public ArrayList<Item> getRoomItems() {
+        return roomItems;
+    }
+    
+    public Item getItem(String itemName) 
+    {
+        for (int i = 0; i < roomItems.size(); i++)
+        {
+            if (roomItems.get(i).getItemName().equalsIgnoreCase(itemName)) {
+            return roomItems.get(i);
+            }
+        }
+        return null;
+    }
+    
+    public void removeItem(Item item)
+    {
+        for (int i=0; i < roomItems.size(); i++)
+        {
+            if (roomItems.get(i) == item)
+            {
+                roomItems.remove(item);
+                break;
+            }
+        }
+    }
+
 
     /**
      * Define an exit from this room.
@@ -44,23 +76,16 @@ public class Room
     }
 
     /**
-     * @return The short description of the room
-     * (the one that was defined in the constructor).
+     * @return The description of the room.
      */
-    public String getShortDescription()
+    public String getDescription()
     {
         return description;
     }
 
-    /**
-     * Return a description of the room in the form:
-     *     You are in the kitchen.
-     *     Exits: north west
-     * @return A long description of this room
-     */
-    public String getLongDescription()
-    {
-        return "You are " + description + ".\n" + getExitString();
+    public Room getExit(String direction) {
+        return exits.get(direction);
+        
     }
 
     /**
@@ -68,8 +93,9 @@ public class Room
      * "Exits: north west".
      * @return Details of the room's exits.
      */
-    private String getExitString()
+    public String getExitString()
     {
+
         String returnString = "Exits:";
         Set<String> keys = exits.keySet();
         for(String exit : keys) {
@@ -77,16 +103,32 @@ public class Room
         }
         return returnString;
     }
-
     /**
-     * Return the room that is reached if we go from this room in direction
-     * "direction". If there is no room in that direction, return null.
-     * @param direction The exit's direction.
-     * @return The room in the given direction.
+     * Return a long description of this room, of the form:
+     *  You are in the kitchen
+     *  Exits: north west
+     *  @return A description of the room, including exits.
      */
-    public Room getExit(String direction) 
+    public String getLongDescription()
     {
-        return exits.get(direction);
+        return "You are " + description +".\n" + getExitString() + ".\n";
+       
+    }
+    
+    public String getItemsInRoom(){
+    String returnItems = "Items in the rooms are: \n";
+    for(Item item : roomItems){
+    returnItems += item.getItemDescription()+"\n";
+    }
+    return returnItems;
+    }
+    
+    /**
+     * add an item to the room when it is created
+     */
+    public void addItem(Item item)
+    {
+        roomItems.add(item);
     }
 }
 
